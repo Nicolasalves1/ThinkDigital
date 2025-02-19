@@ -1,0 +1,23 @@
+* {
+    margin: auto;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+body{
+    display: grid;
+    min-height: 100dvh;
+}
+
+.login-bg{
+    width: 350px;
+    padding: 40px;
+    border-radius: 10px;
+    background-image: linear-gradient(130deg, #bbb3b9 30%, #fffdfd 150%);
+}
+
+
+.credentials {
+    display: flex;
+    flex-direction: column;
+}

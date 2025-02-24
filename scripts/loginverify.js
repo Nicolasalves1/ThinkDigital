@@ -6,7 +6,7 @@ document.getElementById('login-form').addEventListener('submit', async function 
     const password = document.getElementById('InputPassword').value;
 
     try {
-        const response = await fetch('localhost:3000/login', {
+        const response = await fetch('http://127.0.0.1:3000/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -15,6 +15,8 @@ document.getElementById('login-form').addEventListener('submit', async function 
         });
 
         if(!response.ok){
+            document.getElementById('message').textContent = 'Falha na requisição';
+            document.getElementById('message').style.color = 'red';
             throw new Error('Falha na requisição');
         }
 
@@ -24,7 +26,7 @@ document.getElementById('login-form').addEventListener('submit', async function 
             document.getElementById('message').textContent = 'Login efetuado com sucesso!';
             document.getElementById('message').style.color = 'green';
             localStorage.setItem('username', username);
-            document.location.href = 'http://localhost:5500/dashboard.html';
+            document.location.href = '/dashboard.html';
             console.log('Login efetuado com sucesso!');
         } else {
             document.getElementById('message').textContent = data.message;

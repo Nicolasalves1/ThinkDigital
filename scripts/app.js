@@ -13,7 +13,7 @@ import {getRow, getRows, addUser} from './database.js';
 const app = express();
 
 app.use(morgan('dev'));
-app.use(cors());
+app.use(cors()); //estabilização de IP 'dar deny em certos url'
 app.use(express.json());
 app.use((err, req, res, next) => {
     console.error(err.stack);
@@ -25,12 +25,9 @@ app.get('/dashboard', async (req, res) => {
     res.send(data);
 });
 
-app.listen(3000, () => {
-    console.log('Server is running on port 3000');
-});
 
 app.post('/login', async (req, res) => {
-
+    
     console.log('Login request received');
 
     const {username, password} = req.body;
@@ -56,4 +53,12 @@ app.post('/login', async (req, res) => {
         console.error("Erro ao fazer login, código de erro: ", error);
         res.status(501).send('Falha interna do servidor!');
     }
-    });
+});
+
+app.post('/register', async (req, res) => {
+    res.send('Registro realizado com sucesso!');
+});
+
+app.listen(3000, () => {
+    console.log('Server is running on port 3000');
+});

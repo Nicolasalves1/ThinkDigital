@@ -1,7 +1,5 @@
-node_modules
-course01.js
-nodeserver.js
-postcontroller.js
+node_modules/
+node-course/
 .env
 teste.js
 dashboard.html

@@ -1,6 +1,6 @@
 import express from 'express';
 
-import bcrypt from 'bcryptjs';
+//import bcrypt from 'bcryptjs'; biblioteca para criptografar 
 
 import morgan from 'morgan';
 

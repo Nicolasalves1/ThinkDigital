@@ -80,13 +80,46 @@ app.post('/', async (req, res) => {
 
 app.get('/trabalhadores', async (req, res) => {
     try {
-        const [rows] = await pool.query('SELECT name FROM workers');
+        const [rows] = await pool.query(`
+            SELECT * FROM line INNER JOIN shifts ON shifts.id = line.id
+            INNER JOIN teams ON teams.id = shifts.id
+            INNER JOIN workers ON workers.id = teams.id; 
+            `);
         res.json(rows);
     } catch (error) {
         console.error('Erro ao buscar trabalhadores:', error);
         res.status(500).json({ message: 'Erro no servidor' });
     }
 });
+
+// app.get(`/trabalhadores/${dataInicio, dataFim}`, async (req, res) => {
+//     try {
+//         const [rows] = await pool.query(`
+//             SELECT * FROM line INNER JOIN shifts ON shifts.id = line.id
+//             INNER JOIN teams ON teams.id = shifts.id
+//             INNER JOIN workers ON workers.id = teams.id
+//             WHERE shifts.shift_name = ; 
+//             `);
+//         res.json(rows);
+//     } catch (error) {
+//         console.error('Erro ao buscar trabalhadores:', error);
+//         res.status(500).json({ message: 'Erro no servidor' });
+//     }
+// });
+
+app.get('/trabalhadores/turnos', async (req, res) =>{
+    try {
+        const [shiftrows] = await pool.query(`
+            SELECT FROM shifts WHERE shift_name = ?
+            `);
+
+        res.json(shiftrows);
+    } catch(error){
+        console.error('Erro ao buscar trabalhadores:', error);
+        res.status(500).json({ message: 'Erro no servidor' });
+    }
+})
+
 
 app.listen(5000, () => {
     console.log('Server is running on port 5000');

@@ -18,14 +18,14 @@ export { pool }; // Export the pool object
 
 export async function getRows() {
   //Fetch all rows from the database
-  const rows = await pool.query("SELECT * FROM login_user"); // Get all rows from the database
+  const rows = await pool.query("SELECT * FROM login"); // Get all rows from the database
   return rows; // return the fetched rows
 }
 
 export async function getRow(username, password) {
   const row = await pool.query(
     `
-        SELECT * FROM login_user
+        SELECT * FROM login
         WHERE username = ? AND password = ?`,
     [username, password]
   ); // Get a row by user and password from the database
@@ -36,7 +36,7 @@ export async function getRow(username, password) {
 
 export async function addUser(username, password) {
   const [result] = await pool.query(
-    `INSERT INTO login_user (username, password)
+    `INSERT INTO login (username, password)
                     VALUES (?,?)`,
     [username, password]
   );
@@ -44,9 +44,9 @@ export async function addUser(username, password) {
   return getRow(id); // Return the inserted user
 }
 
-export async function deleteUser(id){
+export async function deleteWorker(id){
     const del = await pool.query(`
-        DELETE FROM login_user
+        DELETE FROM workers
         WHERE id =?`
         , [id]);
     const delMessage = `User with id: ${id} deleted successfully.`;

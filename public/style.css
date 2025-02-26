@@ -13,11 +13,18 @@ body{
     width: 350px;
     padding: 40px;
     border-radius: 10px;
-    background-image: linear-gradient(130deg, #bbb3b9 30%, #fffdfd 150%);
+
+    background-image: linear-gradient(130deg, #bbb3b9 30%, #fffdfd 110%);
+    border: 3px solid pink ;
 }
 
 
 .credentials {
     display: flex;
     flex-direction: column;
+}
+
+#registration-link {
+    text-decoration: none;
+    
 }

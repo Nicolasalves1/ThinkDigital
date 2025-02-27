@@ -1,0 +1,116 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box ;
+}
+
+body{
+    height: 100dvh;
+}
+
+.create-worker{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.popup{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 300px;
+    padding: 20px 30px;
+    background: #dbdbdb;
+    box-shadow: 3px 5px 10px 2px;
+    border-radius: 10px;
+    transform: translate(-50%, -50%) scale(1.25);
+    transition: opacity 0.3s ease-in-out;
+    display: none;
+}
+
+.popup .closebutton{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 15px;
+    height: 18px;
+    text-align: center;
+    cursor: pointer;
+}
+
+
+.update-popup{
+    position: absolute;
+    top: 50%;
+    left: 25%;
+    width: 300px;
+    padding: 20px 30px;
+    background: #90b9f1;
+    box-shadow: 3px 5px 10px 2px;
+    border-radius: 10px;
+    transform: translate(-50%, -50%) scale(1.25);
+    transition: opacity 0.3s ease-in-out;
+    display: none;
+}
+
+#button-update-worker{
+    display: flex;
+    position: absolute;
+    top: 47.5%;
+    left: 20%;
+    border-radius: 10px;
+    font-size: 17px;
+    padding: 5px 15px 5px 15px;
+    color: #ffffff;
+    background-color: rgb(241, 113, 215);
+}
+
+.update-popup .update-btn{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 15px;
+    height: 18px;
+    text-align: center;
+    cursor: pointer;
+}
+#button-update-worker:hover{
+    transform: scale(1.02);
+    transition: 0.3s ease-in-out;
+    background-color: rgba(241, 113, 215, 0.794);
+}
+
+.delete-btn{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.delete-popup{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 300px;
+    padding: 20px 30px;
+    background: #dbdbdb;
+    box-shadow: 3px 5px 10px 2px;
+    border-radius: 10px;
+    transform: translate(-50%, -50%) scale(1.25);
+    transition: opacity 0.3s ease-in-out;
+    display: none;
+
+    /* KYS NIGGER
+    */
+}
+
+.delete-popup .delete-icon{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 15px;
+    height: 18px;
+    text-align: center;
+    cursor: pointer;
+}

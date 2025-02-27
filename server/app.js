@@ -10,9 +10,9 @@ import path from 'path'
 
 import url from 'url'
 
-import { pool } from '../server/database.js';
+import { deleteWorker, pool } from '../server/database.js';
 
-import {getRow, getRows, addUser} from '../server/database.js';
+import {addUser} from '../server/database.js';
 
 const app = express();
 const __filename = url.fileURLToPath(import.meta.url);
@@ -37,11 +37,13 @@ app.get('/', (req, res) => {
     res.sendFile(path.resolve('public/index.html'))
 })
 
+
+//login do usuário
 app.post('/', async (req, res) => {
     console.log('Login request received');
     console.log(req);
 
-    const {username, password} = req.body;
+    const {username, password} = req.body; //request para o body do html
     
     if (!username || !password) { // caso seja null os campos do login
         console.log("Erro de preenchimento");
@@ -68,16 +70,72 @@ app.post('/', async (req, res) => {
         res.status(501).send('Falha interna do servidor!');
     }
 });
-// app.get('/users', async (req, res) => {
-//     try {
-//         const [rows] = await pool.query('SELECT * FROM login_user');  
-//         res.json(rows);
-//     } catch (error) {
-//         console.error("Erro ao recuperar usuários:", error);
-//         res.status(500).send('Erro ao recuperar usuários');
-//     }
-// }); 
 
+
+//post para dar registro de usuário na base de dados
+app.post('/trabalhadores', async (req, res) =>{
+    console.log("Attempt of registration received");
+
+    const {name, password} = req.body;
+
+    try{
+        addUser(name, password);
+            if(!name || !password){
+                console.log('Forneça um nome de usuário!');
+                res.sendStatus(400).send('Erro');
+                return error;
+            }
+            console.log('Registro concuído com sucesso!');
+            res.send('Usuário registrado com sucesso');
+    } 
+    catch(error){
+        console.log('Erro no cadastro', error)
+        return res.sendStatus(500).send('Erro ao cadastrar usuário');
+    }
+})
+
+
+//método para atualizar um user na base de dados
+app.put('/trabalhadores', async (req, res) => {
+    const {name, password } = req.body;
+
+    if (!name || !password) { //forma mais fácil de verificar se o utilizador não inseriu nada nos campos
+        return res.status(400).json({ message: 'Por favor, forneça nome e senha.' });
+    }
+
+    try {
+        const [result] = await pool.query(
+            'UPDATE workers SET name = ?, password = ?',
+            [name, password]
+        );
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: 'Trabalhador não encontrado.' });
+        }
+
+        res.json({ message: 'Trabalhador atualizado com sucesso!' });
+    } catch (error) {
+        console.error('Erro ao atualizar trabalhador:', error);
+        res.status(500).json({ message: 'Erro no servidor' });
+    }
+});
+
+
+//método para deletar um user de acordo com o id dele
+app.delete('/trabalhadores', async (req, res) =>{
+    const {id} = req.body;
+
+    try{
+        await deleteWorker(id);
+        res.json({message: 'Trabalhador removido com sucesso!'});
+    }catch(error){
+        console.log('Um erro ocorreu na tentativa de deletar o usuário, por favor, tente mais tarde');
+        res.sendStatus(501).json({message: 'Erro encontrado', error});
+    }
+})
+
+
+//método para fazer a interligação entre as tabelas
 app.get('/trabalhadores', async (req, res) => {
     try {
         const [rows] = await pool.query(`
@@ -92,25 +150,10 @@ app.get('/trabalhadores', async (req, res) => {
     }
 });
 
-// app.get(`/trabalhadores/${dataInicio, dataFim}`, async (req, res) => {
-//     try {
-//         const [rows] = await pool.query(`
-//             SELECT * FROM line INNER JOIN shifts ON shifts.id = line.id
-//             INNER JOIN teams ON teams.id = shifts.id
-//             INNER JOIN workers ON workers.id = teams.id
-//             WHERE shifts.shift_name = ; 
-//             `);
-//         res.json(rows);
-//     } catch (error) {
-//         console.error('Erro ao buscar trabalhadores:', error);
-//         res.status(500).json({ message: 'Erro no servidor' });
-//     }
-// });
-
 app.get('/trabalhadores/turnos', async (req, res) =>{
     try {
         const [shiftrows] = await pool.query(`
-            SELECT FROM shifts WHERE shift_name = ?
+            SELECT * FROM shifts WHERE shift_name = ?
             `);
 
         res.json(shiftrows);

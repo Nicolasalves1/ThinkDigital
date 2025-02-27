@@ -16,32 +16,32 @@ const pool = mysql
 
 export { pool }; // Export the pool object
 
-export async function getRows() {
+export async function getWorkers() {
   //Fetch all rows from the database
-  const rows = await pool.query("SELECT * FROM login"); // Get all rows from the database
+  const rows = await pool.query("SELECT * FROM workers"); // Get all rows from the database
   return rows; // return the fetched rows
 }
 
-export async function getRow(username, password) {
+export async function getWorker(name, password) {
   const row = await pool.query(
     `
-        SELECT * FROM login
-        WHERE username = ? AND password = ?`,
-    [username, password]
+        SELECT * FROM workers
+        WHERE name = ? AND password = ?`,
+    [name, password]
   ); // Get a row by user and password from the database
   return row; // return the fetched row
   //if I return rows as a normal object, it'll print out the array of objects instead of the object itself
   //on the other hand, if I return rows[0], it'll print out the object itself
 }
 
-export async function addUser(username, password) {
+export async function addUser(name, password) {
   const [result] = await pool.query(
-    `INSERT INTO login (username, password)
+    `INSERT INTO workers (name, password)
                     VALUES (?,?)`,
-    [username, password]
+    [name, password]
   );
   const id = result.insertId; //increment id in the database
-  return getRow(id); // Return the inserted user
+  return getWorker(id); // Return the inserted user
 }
 
 export async function deleteWorker(id){
@@ -56,7 +56,7 @@ export async function deleteWorker(id){
 }
 
 
-const rowsReturn = await getRows(); //assign the function call to an object
+const rowsReturn = await getWorkers(); //assign the function call to an object
 console.log(rowsReturn); 
 //const delReturn = await deleteUser(4); // Call the deleteUser function
 //console.log(delReturn);  

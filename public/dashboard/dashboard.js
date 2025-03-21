@@ -15,8 +15,6 @@ function fetchShifts() {
             }
         };
 
-
-
         shiftRequest.onerror = () => reject("Erro ao buscar turnos");
         shiftRequest.onerror = console.log("se ferrou")
         shiftRequest.send();
@@ -110,7 +108,6 @@ setInterval( () =>{
     currentClockTime();
 
     fetchAndDisplayWorkers();
-
 
 }, 60000);
 

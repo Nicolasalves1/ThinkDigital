@@ -1,7 +1,5 @@
 import mysql from "mysql2";
-// Load environment variables from.env file ESPERO QUE DÊ CERTO PQP KKKKKKKK. nao deu certo
 import dotenv from "dotenv";
-
 
 dotenv.config(); // Load the environment variables
 const pool = mysql
@@ -9,7 +7,7 @@ const pool = mysql
     host: process.env.DATABASE_HOST,
     //using enviroment variables to secure sensitive information
     user: process.env.DATABASE_USER,
-    password: process.env.DATABASE_PASSWORD, //tentei usar o dotenv mas nao deu certo, tenho que tentar dnv até conseguir usar um.env
+    password: process.env.DATABASE_PASSWORD, 
     database: process.env.DATABASE_DB,
   })
   .promise();

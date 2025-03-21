@@ -2,6 +2,8 @@ import express from 'express';
 
 //import bcrypt from 'bcryptjs'; biblioteca para criptografar 
 
+import _ from 'lodash';
+
 import morgan from 'morgan';
 
 import cors from 'cors';
@@ -37,7 +39,8 @@ app.get('/', (req, res) => {
     res.sendFile(path.resolve('public/index.html'))
 })
 
-
+app.use(express.json()); 
+app.use(express.urlencoded({ extended: true })); 
 //login do usuário
 app.post('/', async (req, res) => {
     console.log('Login request received');
@@ -71,20 +74,31 @@ app.post('/', async (req, res) => {
     }
 });
 
-
+app.use(express.json()); 
+app.use(express.urlencoded({ extended: true })); 
 //post para dar registro de usuário na base de dados
-app.post('/trabalhadores', async (req, res) =>{
+app.post('/trabalhadores/registros', async (req, res) =>{
     console.log("Attempt of registration received");
 
-    const {name, password} = req.body;
+    const data = {
+        name     : req.body.name,
+        password : req.body.password
+    };
 
     try{
-        addUser(name, password);
-            if(!name || !password){
+        const [result] = await pool.query(
+            `INSERT INTO login (name, password)
+                            VALUES (?,?)`,
+            [data, data]
+          );
+            if(!data.name || !data.password){
                 console.log('Forneça um nome de usuário!');
                 res.sendStatus(400).send('Erro');
                 return error;
             }
+            const response = result.json();
+
+            if(response.ok) 
             console.log('Registro concuído com sucesso!');
             res.send('Usuário registrado com sucesso');
     } 
@@ -94,19 +108,28 @@ app.post('/trabalhadores', async (req, res) =>{
     }
 })
 
+app.use(express.json()); 
+app.use(express.urlencoded({ extended: true })); 
 
 //método para atualizar um user na base de dados
-app.put('/trabalhadores', async (req, res) => {
-    const {name, password } = req.body;
+app.post('/trabalhadores', async (req, res) => {
+    console.log("Corpo da requisição recebido:", req.body);
+    const data = {
+        id       : req.body.id,
+        name     : req.body.name,
+        password : req.body.password,
+    };
 
-    if (!name || !password) { //forma mais fácil de verificar se o utilizador não inseriu nada nos campos
+    console.log(data);
+
+    if (!data.name || !data.password) { //forma mais fácil de verificar se o utilizador não inseriu nada nos campos
         return res.status(400).json({ message: 'Por favor, forneça nome e senha.' });
     }
 
     try {
         const [result] = await pool.query(
-            'UPDATE workers SET name = ?, password = ?',
-            [name, password]
+            'UPDATE workers SET ? WHERE id = ?',
+            [_.omit(data, 'id'), data.id] //ommitir o id do object data
         );
 
         if (result.affectedRows === 0) {
@@ -120,14 +143,17 @@ app.put('/trabalhadores', async (req, res) => {
     }
 });
 
-
 //método para deletar um user de acordo com o id dele
-app.delete('/trabalhadores', async (req, res) =>{
-    const {id} = req.body;
+app.get('/trabalhadores/delete', async (req, res) =>{
+
 
     try{
-        await deleteWorker(id);
-        res.json({message: 'Trabalhador removido com sucesso!'});
+        const del = await pool.query(`
+            DELETE FROM workers
+            WHERE id =?`
+            , [id]);
+        const delMessage = `User with id: ${id} deleted successfully.`;
+        res.json({message: `${delMessage}`});
     }catch(error){
         console.log('Um erro ocorreu na tentativa de deletar o usuário, por favor, tente mais tarde');
         res.sendStatus(501).json({message: 'Erro encontrado', error});
@@ -142,7 +168,7 @@ app.get('/trabalhadores', async (req, res) => {
             SELECT * FROM line INNER JOIN shifts ON shifts.id = line.id
             INNER JOIN teams ON teams.id = shifts.id
             INNER JOIN workers ON workers.id = teams.id; 
-            `);
+            `);//trocar inner join por left join a partir do SELECT 
         res.json(rows);
     } catch (error) {
         console.error('Erro ao buscar trabalhadores:', error);
@@ -150,6 +176,7 @@ app.get('/trabalhadores', async (req, res) => {
     }
 });
 
+//mostrar trabalhadores de acordo com o turno que está mostrando
 app.get('/trabalhadores/turnos', async (req, res) =>{
     try {
         const [shiftrows] = await pool.query(`

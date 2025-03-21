@@ -33,7 +33,9 @@ document.addEventListener("DOMContentLoaded", function () {
     //declaração de variáveis de remoção de funcionários
     const deletePopup = document.querySelector('.delete-popup');
     const deleteWorkerBtn = document.querySelector('.delete-btn');
-    const deleteCloseIcon = document.querySelector('.delete-icon')
+    const deleteCloseIcon = document.querySelector('.delete-icon');
+
+    console.log(deletePopup, deleteWorkerBtn, deleteCloseIcon);
 
 
     // função para que, quando você clicar, a div do popup deixar de estar none e passar a ficar visível
@@ -57,8 +59,6 @@ document.addEventListener("DOMContentLoaded", function () {
         deleteWorkerBtn.addEventListener("click", () => togglePopup(deletePopup));
         deleteCloseIcon.addEventListener("click", () => togglePopup(deletePopup));
     }
-    // REALYZE, ME CHAMA PRA SUA CASA, TO MORANDO EM ARADAS POR AGORA, PERTO DE ILHAVO
-    // sure, pode deixar nigga
 
     // função para fechar o popup quando clicasse para fora do mesmo
     document.addEventListener("click", function (event) {
@@ -73,11 +73,19 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
+    document.addEventListener("keydown", function (event){
+        if(event.key == "Escape"){
+            console.log("Tecla pressionada")
+            if(popup.style.display === "block") popup.style.display = "none";
+            if(updatePopup.style.display === "block") updatePopup.style.display = "none";
+            if(deletePopup.style.display === "block") deletePopup.style.display = "none";
+        }
+    })
+
 });
 
 
-function addUserToDb() {
-    document.querySelector('.update-worker').addEventListener('submit', async function (event){
+    document.querySelector('#update-submit').addEventListener('click', async function (event){
         event.preventDefault();
 
         const id = document.getElementById('id').value;
@@ -85,15 +93,19 @@ function addUserToDb() {
         const password = document.getElementById('password').value;
         const message = document.getElementById('message-submit');
 
+        console.log(`Dados que estão sendo enviados: id: ${id}, nome: ${name} e password: ${password}`)
+
         if(!id || !name || !password){
             message.textContent = 'Erro, por favor insira todos os dados pedidos'
             message.style.color = 'red';
             return;
         }
 
+        console.log("http://localhost:5000/trabalhadores");
+
         try{
             const response = await fetch("http://localhost:5000/trabalhadores", {
-                method: 'PUT',
+                method: 'POST',
                 headers: {
                 'Content-Type': 'application/json'
                 },
@@ -116,5 +128,6 @@ function addUserToDb() {
             message.textContent = 'Erro ao conectar-se com a base de dados'
             message.style.color = 'red';
         }
+    });
 
-    })}
+    

@@ -49,4 +49,3 @@ CREATE TABLE intermediate_table (
 
 ALTER TABLE intermediate_table 
 ADD line_id
-

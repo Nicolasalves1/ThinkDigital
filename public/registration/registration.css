@@ -9,3 +9,16 @@ body{
     justify-content: center;
     align-items: center;
 }
+
+.registration-bg{
+    padding: 2rem 2rem 2rem 2rem;
+    border-radius: 10px;
+    background: linear-gradient(210deg, #f5f5f5 50%, #f5b5b5 120% );
+    box-shadow: 2px 10px 20px 1px;
+}
+
+.registration-btn:hover{
+    transition: ease-in 0.3s;
+    transform: scale(1.03);
+    background-color: rgb(47, 119, 47);
+}

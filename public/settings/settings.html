@@ -31,93 +31,94 @@
           </select>
           <div class="people-data border">
             <div id="user-list"></div>
+            <a href="../dashboard/dashboard.html">voltar</a>
           </div>
         </div>
       </div>
 
-      <div class="creatingNewWorker">
-        <button class="btn btn-success create-worker"> 
-          <!-- aaaaaaaaaaaaaaaa  -->
-          Criar novo trabalhador
-        </button>
-        <div class="popup" style="display: none">
-          <div
-            class="bi bi-x-circle-fill closebutton"
-          ></div>
-          <h3>Adicionar funcionário</h3>
-          <form>
-            <div class="mb-3">
-              <label for="CreatingWorker" class="form-label"
-                >Nome do trabalhador</label
-              >
-              <input
-                type="text"
-                class="form-control"
-                id="nome-trabalhador"
-                aria-describedby="emailHelp"
-              />
-            </div>
-            <div class="mb-3">
-              <label for="exampleInputPassword1" class="form-label"
-                >Senha atribuída ao trabalhador</label
-              >
-              <input
-                type="password"
-                class="form-control"
-                id="exampleInputPassword1"
-              />
-            </div>
-            <button type="submit" class="btn btn-primary">Criar</button>
-          </form>
+      <div class="row d-flex justify-content-center">
+        <div class="creatingNewWorker col-2 mt-5 ms-5">
+          <button class="btn btn-success create-worker">
+            <!-- aaaaaaaaaaaaaaaa  -->
+            Criar novo trabalhador
+          </button>
+          <div class="popup" style="display: none">
+            <div
+              class="bi bi-x-circle-fill closebutton"
+            ></div>
+            <h3>Adicionar funcionário</h3>
+            <form>
+              <div class="mb-3">
+                <label for="CreatingWorker" class="form-label"
+                  >Nome do trabalhador</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="nome-trabalhador"
+                  aria-describedby="emailHelp"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label"
+                  >Senha atribuída ao trabalhador</label
+                >
+                <input
+                  type="password"
+                  class="form-control"
+                  id="exampleInputPassword1"
+                />
+              </div>
+              <button type="submit" class="btn btn-primary">Criar</button>
+            </form>
+          </div>
         </div>
-      </div>
-      <a href="../dashboard/dashboard.html">voltar</a>
-
-      <div class="worker-put">
-        <button id="button-update-worker">Atualizar trabalhadores</button>
-        <div class="update-popup">
-          <div
-            class="bi bi-x-circle-fill update-btn"
-          ></div>
-          <h3>Atualizar Funcionários</h3>
-          <div class="form-element">
-            <form action="PUT">
+        
+        <div class="worker-put col-2 mt-5">
+          <button class="btn btn-dark" id="button-update-worker">Atualizar trabalhadores</button>
+          <div class="update-popup">
+            <div
+              class="bi bi-x-circle-fill update-btn"
+            ></div>
+            <h3>Atualizar Funcionários</h3>
+            <div class="form-element">
+              <form>
+                <div class="mb-3">
+                  <label for="id">ID: </label>
+                  <input type="number" name="id" id="id" placeholder="Digite o ID" required />
+                </div>
+                <div class="mb-3">
+                  <label for="username"
+                    >Username:
+                  </label>
+                  <input type="text" name="name" id="name" placeholder="Digite o nome de usuário" required />
+                </div>
+                <div class="mb-3">
+                  <label for="password"
+                    >Senha:
+                  </label>
+                  <input type="password" name="password" id="password" placeholder="Digite a senha" required />
+                </div>
+                <button  id="update-submit" type="submit" class="btn btn-primary mt-4">Atualizar</button>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="delete-workers col-4 mt-5">
+          <button class="btn btn-danger delete-btn">Remover trabalhador</button>
+          <div class="delete-popup">
+            <div class="bi bi-x-circle-fill delete-icon"></div>
+            <h3>Remover funcionário</h3>
+            <form action="DELETE">
               <div class="mb-3">
                 <label for="id">ID: </label>
-                <input type="number" name="id" id="id" placeholder="Digite o ID" required />
-              </div>
-              <div class="mb-3">
-                <label for="username"
-                  >Username:
-                </label>
-                <input type="text" name="name" id="name" placeholder="Digite o nome de usuário" required />
-              </div>
-              <div class="mb-3">
-                <label for="password"
-                  >Senha:
-                </label>
-                <input type="password" name="password" id="password" placeholder="Digite a senha" required />
+                <input  type="number" name="id" id="id" placeholder="Digite o ID" required />
               </div>
             </form>
           </div>
         </div>
-      </div>
-
-      <!-- ZOA, O PEDRO FEZ PQ O JOSE PEDIU NAO SEI PQ -->
-      <div class="delete-workers">
-        <button class="btn btn-danger delete-btn">Remover trabalhador</button>
-        <div class="delete-popup">
-          <div class="bi bi-x-circle-fill delete-icon"></div>
-          <h3>Remover funcionário</h3>
-          <form action="DELETE">
-            <div class="mb-3">
-              <label for="id">ID: </label>
-              <input type="number" name="id" id="id" placeholder="Digite o ID" required />
             </div>
-          </form>
-        </div>
       </div>
-    </div>
 
     <script src="settings.js"></script>
   </body>
